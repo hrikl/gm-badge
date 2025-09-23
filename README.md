@@ -17,7 +17,6 @@ A simple browser extension for customizing your Chess.com profile with a GM badg
    ```javascript
    // YOUR USERNAME - Change this to your actual Chess.com username
    const YOUR_USERNAME = 'your-chess-username';
-   const YOUR_DISPLAY_NAME = 'Your Display Name';
    
 3. Go to **chrome://extensions/**
 
