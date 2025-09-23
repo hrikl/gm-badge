@@ -2,7 +2,7 @@
     'use strict';
     
     // YOUR USERNAME - Change this to your actual Chess.com username
-    const YOUR_USERNAME = 'hrikl';
+    const YOUR_USERNAME = '#';
     
     
     const exactBadgeStyles = {
@@ -107,3 +107,4 @@
         init();
     }
 })();
+
