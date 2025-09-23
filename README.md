@@ -4,7 +4,7 @@ A simple browser extension for customizing your Chess.com profile with a GM badg
 
 ## Features
 - Adds GM badge next to your username
-- Works on your profile and in games
+- Works on your profile page, game history, and live games
 - Easy to install and use
 
 ## Installation
