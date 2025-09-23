@@ -19,9 +19,9 @@ A simple browser extension for customizing your Chess.com profile with a GM badg
    const YOUR_USERNAME = 'your-chess-username';
    const YOUR_DISPLAY_NAME = 'Your Display Name';
    
-3. Go to chrome://extensions/
+3. Go to **chrome://extensions/**
 
-4. Enable "Developer mode" (toggle in top-right)
+4. Enable **Developer mode** (toggle in top-right)
 
-5. Click "Load unpacked" and select the downloaded folder
+5. Click **Load unpacked** and select the downloaded folder
 
