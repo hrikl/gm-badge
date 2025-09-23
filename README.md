@@ -9,7 +9,7 @@ A simple browser extension for customizing your Chess.com profile with a GM badg
 
 ## Installation
 
-1. **Download this folder** to your computer
+1. **Download the "chess-gm-badge-extention" folder** on your computer
 
 2. **Edit the configuration** in `content.js`:
    - Open `content.js` in a text editor
