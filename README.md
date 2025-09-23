@@ -24,7 +24,7 @@ A simple browser extension for customizing your Chess.com profile with a GM badg
 
 5. Click **Load unpacked** and select the downloaded folder
 
-**Note**
+**Note:**
 This extension only works locally on your browser and doesn't modify your actual Chess.com account.
 
 ## Screenshots
