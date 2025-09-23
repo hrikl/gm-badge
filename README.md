@@ -27,5 +27,16 @@ A simple browser extension for customizing your Chess.com profile with a GM badg
 **Note**
 This extension only works locally on your browser and doesn't modify your actual Chess.com account.
 
+## Screenshots
+
+### Profile Page
+![Profile with GM badge](screenshots/profile.png)
+
+### Game History  
+![Game history with GM badge](screenshots/game-history.png)
+
+### Live Game
+![Live game with GM badge](screenshots/live-game.png)
+
 
 
