@@ -1,4 +1,4 @@
-// Chess.com GM Badge - For Your Username Everywhere
+// Chess.com GM Badge
 (function() {
     'use strict';
     
@@ -6,23 +6,23 @@
     const YOUR_USERNAME = '#';
     const YOUR_DISPLAY_NAME = '#';
     
-    // Exact in-game badge styling from your screenshot
+  
     const inGameBadgeStyles = {
-        fontSize: '10px', // Smaller font for in-game badges
+        fontSize: '10px', 
         fontWeight: '700',
         lineHeight: '10px',
         padding: '2px 3px',
-        margin: '0px 4px 0px 0px', // Different margin for in-game
+        margin: '0px 4px 0px 0px', 
         borderRadius: '2px',
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
         textTransform: 'uppercase',
-        height: '14px', // Smaller height for in-game
-        minWidth: '20px', // Smaller width for in-game
+        height: '14px', 
+        minWidth: '20px', 
         backgroundColor: '#7C2929',
         color: '#FFFFFF'
     };
     
-    // Profile page badge styling (slightly larger)
+    
     const profileBadgeStyles = {
         fontSize: '18px',
         fontWeight: '600',
@@ -66,14 +66,14 @@
     }
     
     function addBadgesToElements() {
-        // Remove any existing custom badges
+        
         document.querySelectorAll('.custom-gm-badge').forEach(badge => badge.remove());
         
-        // Add badges to ALL elements containing your username
+        
         const allElements = document.querySelectorAll('*');
         
         allElements.forEach(element => {
-            if (element.children.length > 0) return; // Skip elements with children
+            if (element.children.length > 0) return; 
             
             const text = element.textContent || '';
             const isYourUsername = text.includes(YOUR_USERNAME) || 
@@ -82,17 +82,17 @@
                                   text.trim() === YOUR_DISPLAY_NAME;
             
             if (isYourUsername && !element.querySelector('.custom-gm-badge')) {
-                // Check if this is an in-game context (smaller text, game history, etc.)
+                
                 const computedStyle = window.getComputedStyle(element);
                 const isInGameContext = computedStyle.fontSize === '10px' || 
                                        element.closest('[class*="game"], [class*="match"], [class*="history"]') ||
                                        element.closest('.game-component') ||
-                                       text.includes('(') || // Likely rating in parentheses
-                                       element.textContent.length < 20; // Short text likely in-game
+                                       text.includes('(') || 
+                                       element.textContent.length < 20; 
                 
                 const badge = createBadge(isInGameContext);
                 
-                // Insert badge at the beginning of the element
+                
                 if (element.firstChild) {
                     element.insertBefore(badge, element.firstChild);
                 } else {
@@ -108,7 +108,7 @@
         setTimeout(addBadgesToElements, 1000);
         setTimeout(addBadgesToElements, 2000);
         
-        // Observe for dynamic content (games load dynamically)
+        
         const observer = new MutationObserver(() => {
             setTimeout(addBadgesToElements, 100);
         });
@@ -118,7 +118,7 @@
             subtree: true
         });
         
-        // Handle navigation
+        
         let lastUrl = location.href;
         setInterval(() => {
             if (location.href !== lastUrl) {
@@ -133,4 +133,5 @@
     } else {
         init();
     }
+
 })();
