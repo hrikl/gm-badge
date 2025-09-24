@@ -2,8 +2,8 @@
 
 A browser extension for customizing your Chess.com profile with various title badges. Just for fun and personal customization.
 
-## Version 2.0 - New Popup Interface!
-**No more manual editing required!** Customize everything through an easy-to-use popup interface.
+## Version 2.0 - New Interface!
+**No more manual editing required!** Customize everything through an easy-to-use interface.
 
 ## Features
 - Adds customizable title badges next to your username
