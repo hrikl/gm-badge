@@ -59,7 +59,7 @@ A browser extension for customizing your Chess.com profile with various title ba
 - 💾 **Automatic save** of settings
 - 🧪 **Test feature** for instant preview
 
-### [v1.5 (Legacy)](https://github.com/yourusername/chess-title-badge/releases/tag/v1.5)
+### [v1.5 (Legacy)](https://github.com/hrikl/gm-badge/releases/tag/v1.5)
 - Required manual code editing
 - Basic GM badge only
 
