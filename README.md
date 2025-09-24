@@ -53,11 +53,11 @@ A browser extension for customizing your Chess.com profile with various title ba
 ## Version History
 
 ### v2.0 (Current)
-- 🎨 **New popup interface** - No code editing required
-- 🎯 **Color picker** with real-time preview
-- 📝 **Custom title support**
-- 💾 **Automatic save** of settings
-- 🧪 **Test feature** for instant preview
+- **New popup interface** - No code editing required
+- **Color picker** with real-time preview
+- **Custom title**
+- **Automatic save** of settings
+- **Test feature** for instant preview
 
 ### [v1.5 (Legacy)](https://github.com/hrikl/chess-title-badge/releases/tag/v1.0)
 - Required manual code editing
