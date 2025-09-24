@@ -85,3 +85,7 @@ A browser extension for customizing your Chess.com profile with various title ba
 
 ## Support
 For issues or feature requests, please open an issue on GitHub.
+
+
+This is a fan-made browser extension for personal customization purposes only. 
+Not affiliated with or endorsed by Chess.com. Does not provide any gameplay advantage.
