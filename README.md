@@ -2,7 +2,7 @@
 
 A browser extension for customizing your Chess.com profile with various title badges. Just for fun and personal customization.
 
-## 🚀 Version 2.0 - New Popup Interface!
+## Version 2.0 - New Popup Interface!
 **No more manual editing required!** Customize everything through an easy-to-use popup interface.
 
 ## Features
@@ -59,7 +59,7 @@ A browser extension for customizing your Chess.com profile with various title ba
 - **Automatic save** of settings
 - **Test feature** for instant preview
 
-### [v1.5 (Legacy)](https://github.com/hrikl/chess-title-badge/releases/tag/v1.0)
+### [v1.5 (Legacy)](https://github.com/hrikl/gm-badge/releases/tag/v1.0)
 - Required manual code editing
 - Basic GM badge only
 
