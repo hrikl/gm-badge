@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     const usernameInput = document.getElementById('username');
     const titleSelect = document.getElementById('title');
     const customTitleInput = document.getElementById('customTitle');
@@ -6,86 +6,145 @@ document.addEventListener('DOMContentLoaded', () => {
     const colorPreview = document.getElementById('colorPreview');
     const titleText = document.getElementById('titleText');
     const hexValue = document.getElementById('hexValue');
-    const saveBtn = document.getElementById('save');
-    const testBtn = document.getElementById('test');
-    const resetColorBtn = document.getElementById('resetColor');
+    const saveButton = document.getElementById('save');
+    const testButton = document.getElementById('test');
+    const resetColorButton = document.getElementById('resetColor');
     const status = document.getElementById('status');
 
-
-    chrome.storage.sync.get(['username', 'finalTitle', 'color'], data => {
-        if (data.username) usernameInput.value = data.username;
-        if (data.finalTitle) {
-            if (['GM','IM','FM','WGM','NM','CM'].includes(data.finalTitle)) {
-                titleSelect.value = data.finalTitle;
-            } else {
-                titleSelect.value = 'CUSTOM';
-                customTitleInput.value = data.finalTitle;
-                customTitleInput.style.display = 'block';
-            }
-            titleText.textContent = data.finalTitle;
+    chrome.storage.sync.get(['username', 'title', 'customTitle', 'badgeColor'], function(result) {
+        if (result.username) usernameInput.value = result.username;
+        if (result.title) {
+            titleSelect.value = result.title;
+            updateTitleDisplay();
         }
-        if (data.color) {
-            colorInput.value = data.color;
-            colorPreview.style.backgroundColor = data.color;
-            hexValue.textContent = data.color;
+        if (result.customTitle) customTitleInput.value = result.customTitle;
+        if (result.badgeColor) {
+            colorInput.value = result.badgeColor;
+            updateColorDisplay();
         }
     });
 
-   
-    titleSelect.addEventListener('change', () => {
-        if (titleSelect.value === 'CUSTOM') {
+    titleSelect.addEventListener('change', function() {
+        updateTitleDisplay();
+    });
+
+    function updateTitleDisplay() {
+        const selectedTitle = titleSelect.value;
+        if (selectedTitle === 'CUSTOM') {
             customTitleInput.style.display = 'block';
             titleText.textContent = customTitleInput.value || 'CUSTOM';
         } else {
             customTitleInput.style.display = 'none';
-            titleText.textContent = titleSelect.value;
+            titleText.textContent = selectedTitle;
+        }
+    }
+
+    customTitleInput.addEventListener('input', function() {
+        if (titleSelect.value === 'CUSTOM') {
+            titleText.textContent = this.value || 'CUSTOM';
         }
     });
 
-    customTitleInput.addEventListener('input', () => {
-        titleText.textContent = customTitleInput.value;
+    colorInput.addEventListener('input', function() {
+        updateColorDisplay();
     });
 
-    // Color picker
-    colorInput.addEventListener('input', () => {
-        colorPreview.style.backgroundColor = colorInput.value;
-        hexValue.textContent = colorInput.value.toUpperCase();
-    });
-
-    resetColorBtn.addEventListener('click', () => {
-        colorInput.value = '#7C2929';
-        colorPreview.style.backgroundColor = '#7C2929';
-        hexValue.textContent = '#7C2929';
-    });
-
-
-    saveBtn.addEventListener('click', () => {
-        const finalTitle = titleSelect.value === 'CUSTOM' ? customTitleInput.value : titleSelect.value;
+    function updateColorDisplay() {
         const color = colorInput.value;
+        colorPreview.style.backgroundColor = color;
+        hexValue.textContent = color.toUpperCase();
+    }
 
-        if (!usernameInput.value || !finalTitle) {
-            showStatus('Please fill in all fields', 'error');
+    resetColorButton.addEventListener('click', function() {
+        colorInput.value = '#7C2929';
+        updateColorDisplay();
+    });
+
+    saveButton.addEventListener('click', function() {
+        const username = usernameInput.value.trim();
+        
+        if (!username) {
+            showStatus('Please enter your Chess.com username', 'error');
             return;
         }
 
-        chrome.storage.sync.set({
-            username: usernameInput.value,
-            finalTitle: finalTitle,
-            color: color
-        }, () => showStatus('Settings saved!', 'success'));
-    });
+        const selectedTitle = titleSelect.value;
+        let finalTitle = selectedTitle;
+        
+        if (selectedTitle === 'CUSTOM') {
+            const customTitle = customTitleInput.value.trim();
+            if (!customTitle) {
+                showStatus('Please enter a custom title', 'error');
+                return;
+            }
+            finalTitle = customTitle;
+        }
 
+        const settings = {
+            username: username,
+            title: finalTitle,
+            customTitle: customTitleInput.value.trim(),
+            badgeColor: colorInput.value
+        };
 
-    testBtn.addEventListener('click', () => {
-        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-            chrome.tabs.sendMessage(tabs[0].id, {action: 'updateBadges'});
+        chrome.storage.sync.set(settings, function() {
+            showStatus('Settings saved successfully!', 'success');
+            
+            chrome.tabs.query({url: "*://*.chess.com/*"}, function(tabs) {
+                tabs.forEach(tab => {
+                    chrome.tabs.sendMessage(tab.id, {
+                        action: 'updateSettings',
+                        settings: settings
+                    });
+                });
+            });
         });
     });
 
-    function showStatus(msg, type) {
-        status.textContent = msg;
+    testButton.addEventListener('click', function() {
+        const username = usernameInput.value.trim();
+        
+        if (!username) {
+            showStatus('Please enter your username first', 'error');
+            return;
+        }
+
+        const selectedTitle = titleSelect.value;
+        let finalTitle = selectedTitle === 'CUSTOM' ? customTitleInput.value.trim() : selectedTitle;
+        
+        if (!finalTitle) {
+            showStatus('Please select or enter a title', 'error');
+            return;
+        }
+
+        const settings = {
+            username: username,
+            title: finalTitle,
+            customTitle: customTitleInput.value.trim(),
+            badgeColor: colorInput.value
+        };
+
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+                action: 'testBadge',
+                settings: settings
+            }, function(response) {
+                if (chrome.runtime.lastError) {
+                    showStatus('Please navigate to Chess.com first', 'error');
+                } else {
+                    showStatus('Test badge applied!', 'success');
+                }
+            });
+        });
+    });
+
+    function showStatus(message, type) {
+        status.textContent = message;
         status.className = `status ${type}`;
         status.style.display = 'block';
-        setTimeout(() => { status.style.display = 'none'; }, 2000);
+        
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 3000);
     }
 });
