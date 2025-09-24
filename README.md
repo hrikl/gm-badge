@@ -66,7 +66,7 @@ A browser extension for customizing your Chess.com profile with various title ba
 ## Screenshots
 
 ### Popup Interface
-![Popup customization](screenshots/popup.png)
+![Popup customization](screenshots/ui.png)
 
 ### Profile Page  
 ![Profile with custom badge](screenshots/profile.png)
