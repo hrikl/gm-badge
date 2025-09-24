@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chess Title Badge</title>
+<style>
+body { 
+    width: 280px; 
+    padding: 15px; 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    background: #1e1e1e;
+    color: #eee;
+}
+
+.container { display: flex; flex-direction: column; gap: 12px; }
+
+h3 { margin: 0 0 10px 0; color: #eee; text-align: center; font-size: 16px; }
+
+.input-group { display: flex; flex-direction: column; gap: 5px; }
+
+label { font-size: 12px; font-weight: 600; color: #ccc; }
+
+input, select { 
+    padding: 8px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    font-size: 13px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #2a2a2a;
+    color: #eee;
+}
+
+input:focus, select:focus { outline: none; border-color: #7C2929; }
+
+button { 
+    padding: 10px;
+    background: #7C2929;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+button:hover { background: #6a2323; transform: scale(1.02); }
+button:active { background: #5a1d1d; transform: scale(0.98); }
+
+.button-secondary { background: #6c757d; font-size: 11px; padding: 6px; }
+.button-secondary:hover { background: #5a6268; }
+
+.status { padding: 8px; border-radius: 4px; font-size: 12px; text-align: center; display: none; }
+.success { background: #15572433; color: #d4edda; border: 1px solid #15572455; }
+.error { background: #721c2433; color: #f8d7da; border: 1px solid #721c2455; }
+
+.color-section { display: flex; flex-direction: column; gap: 8px; }
+.color-picker-container { display: flex; align-items: center; gap: 10px; }
+.color-input-wrapper { position: relative; flex: 1; }
+
+#color { width: 100%; height: 40px; border: 2px solid #555; border-radius: 6px; cursor: pointer; background: #2a2a2a; }
+.color-preview { 
+    width: 80px; height: 40px; border-radius: 6px; border: 2px solid #555;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: white; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: #7C2929;
+}
+
+#customTitle { display: none; margin-top: 5px; }
+
+.divider { height: 1px; background: #555; margin: 5px 0; }
+.buttons-group { display: flex; flex-direction: column; gap: 8px; margin-top: 5px; }
+.color-label { display: flex; justify-content: space-between; align-items: center; }
+.hex-value { font-size: 11px; color: #aaa; font-family: monospace; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h3>Chess Title Badge</h3>
+
+    <div class="input-group">
+        <label for="username">Chess.com Username</label>
+        <input type="text" id="username" placeholder="Enter your username">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="input-group">
+        <label for="title">Title</label>
+        <select id="title">
+            <option value="GM">GM - Grandmaster</option>
+            <option value="IM">IM - International Master</option>
+            <option value="FM">FM - FIDE Master</option>
+            <option value="WGM">WGM - Woman Grandmaster</option>
+            <option value="NM">NM - National Master</option>
+            <option value="CM">CM - Candidate Master</option>
+            <option value="CUSTOM">Custom Title</option>
+        </select>
+        <input type="text" id="customTitle" placeholder="Enter custom title">
+    </div>
+
+    <div class="input-group">
+        <div class="color-label">
+            <label for="color">Badge Color</label>
+            <span class="hex-value" id="hexValue">#7C2929</span>
+        </div>
+
+        <div class="color-section">
+            <div class="color-picker-container">
+                <div class="color-input-wrapper">
+                    <input type="color" id="color" value="#7C2929">
+                </div>
+                <div class="color-preview" id="colorPreview">
+                    <span id="titleText">GM</span>
+                </div>
+            </div>
+            <button id="resetColor" class="button-secondary">Reset to Default Red</button>
+        </div>
+    </div>
+
+    <div class="buttons-group">
+        <button id="save">Save Settings</button>
+        <button id="test" class="button-secondary">Test on Current Page</button>
+    </div>
+
+    <div id="status" class="status"></div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>

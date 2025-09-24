@@ -1,8 +1,21 @@
-(function() {
-    'use strict';
+    chrome.storage.sync.get(['username', 'finalTitle', 'color'], function(data) {
+        if (data.username) config.username = data.username;
+        if (data.finalTitle) config.title = data.finalTitle;
+        if (data.color) config.color = data.color;
+        addBadgesToElements();
+    });
     
-    // YOUR USERNAME - Change this to your actual Chess.com username
-    const YOUR_USERNAME = '#';
+
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.action === "updateBadges") {
+            chrome.storage.sync.get(['username', 'finalTitle', 'color'], function(data) {
+                if (data.username) config.username = data.username;
+                if (data.finalTitle) config.title = data.finalTitle;
+                if (data.color) config.color = data.color;
+                addBadgesToElements();
+            });
+        }
+    });
     
     const profileBadgeStyles = {
         fontSize: '18px',
@@ -15,12 +28,10 @@
         textTransform: 'uppercase',
         height: '22px',
         minWidth: '35px',
-        backgroundColor: '#7C2929',
         color: '#FFFFFF',
         verticalAlign: 'top'
     };
     
-   
     const inGameBadgeStyles = {
         fontSize: '10px',
         fontWeight: '700',
@@ -32,7 +43,6 @@
         textTransform: 'uppercase',
         height: '14px',
         minWidth: '20px',
-        backgroundColor: '#7C2929',
         color: '#FFFFFF',
         verticalAlign: 'top',
         marginTop: '-1px'
@@ -40,11 +50,11 @@
     
     function createBadge(isInGame = false) {
         const badge = document.createElement('span');
-        badge.className = 'custom-gm-badge';
-        badge.textContent = 'GM';
+        badge.className = 'custom-title-badge';
+        badge.textContent = config.title;
         
         const styles = isInGame ? inGameBadgeStyles : profileBadgeStyles;
-        
+        styles.backgroundColor = config.color;
         
         badge.style.display = isInGame ? 'inline-flex' : 'inline-block';
         badge.style.alignItems = 'center';
@@ -54,7 +64,6 @@
         badge.style.cursor = 'pointer';
         badge.style.textDecoration = 'none';
         
-        
         Object.keys(styles).forEach(property => {
             badge.style[property] = styles[property];
         });
@@ -63,34 +72,28 @@
     }
     
     function shouldUseInGameSize(element) {
-        
         if (element.closest('[class*="game"], [class*="match"], [class*="history"], [class*="player"]')) {
             return true;
         }
-        
         
         const computedStyle = window.getComputedStyle(element);
         if (computedStyle.fontSize === '10px' || computedStyle.fontSize.includes('10')) {
             return true;
         }
         
-        
         if (element.textContent && element.textContent.includes('(') && element.textContent.length < 30) {
             return true;
         }
-        
         
         return false;
     }
     
     function addBadgesToElements() {
-        
-        document.querySelectorAll('.custom-gm-badge').forEach(badge => badge.remove());
-        
+        document.querySelectorAll('.custom-title-badge').forEach(badge => badge.remove());
         
         const usernameSelectors = [
-            'h1.profile-card-username', 
-            '.player-username',         
+            'h1.profile-card-username',
+            '.player-username',
             '.game-username', 
             '[class*="username"]',
             '[class*="player"]',
@@ -102,10 +105,9 @@
             const elements = document.querySelectorAll(selector);
             elements.forEach(element => {
                 const text = element.textContent || '';
-                if (text.includes(YOUR_USERNAME) && !element.querySelector('.custom-gm-badge')) {
+                if (text.includes(config.username) && !element.querySelector('.custom-title-badge')) {
                     const isInGame = shouldUseInGameSize(element);
                     const badge = createBadge(isInGame);
-                    
                     
                     if (element.firstChild) {
                         element.insertBefore(badge, element.firstChild);
@@ -119,7 +121,7 @@
     
     function init() {
         setTimeout(addBadgesToElements, 1000);
-        setTimeout(addBadgesToElements, 3000); 
+        setTimeout(addBadgesToElements, 3000);
         
         const observer = new MutationObserver(() => {
             setTimeout(addBadgesToElements, 500);
@@ -129,7 +131,6 @@
             childList: true,
             subtree: true
         });
-        
         
         let lastUrl = location.href;
         setInterval(() => {
